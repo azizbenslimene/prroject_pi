@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="575.0" prefWidth="943.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1" fx:controller="ecoart.gui.ReserverTicketController">
+   <children>
+      <Label layoutX="47.0" layoutY="88.0" text="nom:" />
+      <Label layoutX="47.0" layoutY="138.0" text="prenom :" />
+      <Label layoutX="45.0" layoutY="179.0" text="telephone" />
+      <Label layoutX="51.0" layoutY="220.0" text="e_mail:" />
+      <Label layoutX="47.0" layoutY="299.0" text="date:" />
+      <TextField fx:id="tfnom_t" layoutX="95.0" layoutY="84.0" />
+      <TextField fx:id="tfprenom_t" layoutX="106.0" layoutY="134.0" />
+      <TextField fx:id="tfnum_t" layoutX="106.0" layoutY="175.0" />
+      <TextField fx:id="tfmail_t" layoutX="106.0" layoutY="216.0" />
+      <DatePicker fx:id="date_t" layoutX="94.0" layoutY="295.0" />
+      <TableView layoutX="304.0" layoutY="75.0" onMouseClicked="#tab_t" prefHeight="233.0" prefWidth="614.0">
+        <columns>
+          <TableColumn fx:id="colid_t" prefWidth="75.0" text="id" />
+          <TableColumn fx:id="colnom_t" prefWidth="75.0" text="nom" />
+            <TableColumn fx:id="colprenom_t" prefWidth="75.0" text="prenom" />
+            <TableColumn fx:id="coltelephone_t" prefWidth="75.0" text="telephone" />
+            <TableColumn fx:id="colmail_t" prefWidth="75.0" text="e-mail" />
+            <TableColumn fx:id="colevent_t" prefWidth="106.0" text="nom d'evenemnt" />
+            <TableColumn fx:id="coldate_t" prefWidth="62.0" text="date" />
+            <TableColumn fx:id="colprix_t" prefWidth="75.0" text="prix" />
+        </columns>
+      </TableView>
+      <Button layoutX="320.0" layoutY="379.0" mnemonicParsing="false" onMouseClicked="#ajouterticket" text="Ajouter" />
+      <Button layoutX="536.0" layoutY="379.0" mnemonicParsing="false" onMouseClicked="#supprimerticket" text="Supprimer" />
+      <Button layoutX="434.0" layoutY="379.0" mnemonicParsing="false" onMouseClicked="#modifierticket" text="Modifier" />
+      <Label layoutX="106.0" layoutY="14.0" prefHeight="17.0" prefWidth="247.0" text="reserver ticket">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

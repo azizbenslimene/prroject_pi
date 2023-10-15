@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="679.0" prefWidth="927.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecoart.gui.EventAdminController">
+     <children>
+      <Label layoutX="36.0" layoutY="45.0" prefHeight="35.0" prefWidth="140.0" text="evenement">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="22.0" layoutY="117.0" text="Nom de reservation " />
+      <Label layoutX="29.0" layoutY="170.0" text="date " />
+      <TextField fx:id="tfnom_a" layoutX="140.0" layoutY="113.0" prefHeight="25.0" prefWidth="128.0" />
+      <DatePicker fx:id="daterev_a" layoutX="140.0" layoutY="166.0" prefHeight="25.0" prefWidth="128.0" />
+      <Button fx:id="btajoutResv_a" layoutX="459.0" layoutY="397.0" mnemonicParsing="false" onMouseClicked="#Ajoutresv" text="Ajouter" />
+      <Button fx:id="btsupResv_a" layoutX="562.0" layoutY="397.0" mnemonicParsing="false" onMouseClicked="#Supresv" text="Supprimer" />
+      <Button fx:id="btmodifResv_a" layoutX="667.0" layoutY="397.0" mnemonicParsing="false" onMouseClicked="#Modresv" text="Modifier" />
+      <TableView fx:id="tabResv_a" layoutX="295.0" layoutY="72.0" onMouseClicked="#tab" prefHeight="238.0" prefWidth="405.0">
+        <columns>
+          <TableColumn fx:id="colnom_a" prefWidth="79.0" text="nom" />
+            <TableColumn fx:id="coldate_a" prefWidth="95.0" text="date" />
+            <TableColumn fx:id="collieu_a" prefWidth="75.0" text="lieu" />
+            <TableColumn fx:id="coldesc_a" prefWidth="75.0" text="description" />
+            <TableColumn fx:id="colprix_a" prefWidth="75.0" text="prix DT" />
+        </columns>
+      </TableView>
+      <ImageView fitHeight="72.0" fitWidth="87.0" layoutX="415.0" layoutY="285.0" pickOnBounds="true" preserveRatio="true" />
+      <ComboBox fx:id="combolieu_a" layoutX="141.0" layoutY="213.0" prefWidth="150.0" />
+      <Label layoutX="38.0" layoutY="217.0" text="lieu" />
+      <Label layoutX="18.0" layoutY="302.0" text="description" />
+      <Label layoutX="9.0" layoutY="457.0" text="image" />
+      <Button fx:id="btimgResv_a" layoutX="16.0" layoutY="495.0" mnemonicParsing="false" onMouseClicked="#importerImg_a" text="importer" />
+      <AnchorPane fx:id="main" layoutX="141.0" layoutY="420.0" prefHeight="150.0" prefWidth="200.0">
+         <children>
+            <ImageView fx:id="espaceImg_a" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+      <TextArea fx:id="txtdesc_a" layoutX="106.0" layoutY="270.0" prefHeight="99.0" prefWidth="180.0" />
+      <Label layoutX="341.0" layoutY="321.0" text="prix:" />
+      <TextField fx:id="tfprix_a" layoutX="378.0" layoutY="317.0" />
+      <ImageView fitHeight="72.0" fitWidth="80.0" layoutX="844.0" layoutY="577.0" onMouseClicked="#next_a">
+         <image>
+            <Image url="@../next.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
