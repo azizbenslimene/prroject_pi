@@ -5,9 +5,15 @@
  */
 package ecoart.gui;
 
+import ecoart.entities.Event;
+import ecoart.entities.EventAdmin;
+import ecoart.services.EventService;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -29,28 +36,34 @@ import javafx.stage.Stage;
 public class InterfaceEventController implements Initializable {
 
     @FXML
-    private TableColumn<?, ?> colnom_event;
+    private TableColumn<EventAdmin, String> colnom_event;
     @FXML
-    private TableColumn<?, ?> coldate_event;
+    private TableColumn<EventAdmin, String> coldate_event;
     @FXML
-    private TableColumn<?, ?> collieu_event;
+    private TableColumn<EventAdmin, String> collieu_event;
     @FXML
-    private TableColumn<?, ?> coldesc_event;
+    private TableColumn<EventAdmin, String> coldesc_event;
     @FXML
-    private TableColumn<?, ?> colprix_event;
+    private TableColumn<EventAdmin, Integer> colprix_event;
     @FXML
     private AnchorPane anchorpane_event;
     @FXML
     private ImageView imageview_event;
     @FXML
     private Button btresv_event;
-
+    @FXML
+    private TableView<EventAdmin> tabview_event;
+    EventService ES=new EventService();
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        try {
+            ES.ShowReservation(colnom_event, coldate_event, collieu_event, coldesc_event, colprix_event, tabview_event);
+        } catch (SQLException ex) {
+            Logger.getLogger(InterfaceEventController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }    
 
     @FXML

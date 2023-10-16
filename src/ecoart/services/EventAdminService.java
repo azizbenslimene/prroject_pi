@@ -73,7 +73,7 @@ public class EventAdminService {
 
         return matcher.matches();
     }
-public void ajoutEventAdmin(EventAdmin e, Image image) throws IOException, SQLException {
+public void ajoutEventAdmin(EventAdmin e, String path) throws IOException, SQLException {
     
     boolean isUnique = false; 
     
@@ -85,11 +85,11 @@ public void ajoutEventAdmin(EventAdmin e, Image image) throws IOException, SQLEx
         LocalDate localdate = e.getDate_a();
         Date sqlDate = Date.valueOf(localdate);
 
-        // Load the image and convert it to a byte array
+        /*// Load the image and convert it to a byte array
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", baos);
-        byte[] imageData = baos.toByteArray();
+        byte[] imageData = baos.toByteArray();*/
         
         
         PreparedStatement pst = myConx.prepareStatement(selectQuery);
@@ -108,7 +108,7 @@ public void ajoutEventAdmin(EventAdmin e, Image image) throws IOException, SQLEx
             alert.setContentText("An event with the same name already exists.");
             alert.showAndWait();
             
-        } 
+        }    
         
         else {
         // Prepare the SQL statement
@@ -118,7 +118,11 @@ public void ajoutEventAdmin(EventAdmin e, Image image) throws IOException, SQLEx
         pst.setDate(3, sqlDate);
         pst.setString(4, e.getLieu_a());
         pst.setString(5, e.getDescription_a());
-        pst.setBytes(6, imageData);
+   
+
+       
+        pst.setString(6, path);
+        
         pst.setInt(7, e.getPrix_a());
 
         // Execute the SQL statement to insert the event
@@ -133,7 +137,7 @@ public void ajoutEventAdmin(EventAdmin e, Image image) throws IOException, SQLEx
     
     
     
-public void modifEventAdmin(EventAdmin e, Image image, int selectedIndex,int selectedId) throws IOException {
+public void modifEventAdmin(EventAdmin e, String path, int selectedIndex,int selectedId) throws IOException {
     try {
         // Prepare the SQL UPDATE query
         String updateQuery = "UPDATE eventadmin SET nom_a = ?, date_a = ?, lieu_a = ?, description_a = ?, image_a = ?, prix_a = ? WHERE id_a = ?";
@@ -142,11 +146,11 @@ public void modifEventAdmin(EventAdmin e, Image image, int selectedIndex,int sel
         LocalDate localdate = e.getDate_a();
         Date sqlDate = Date.valueOf(localdate);
 
-        // Load the image and convert it to a byte array
+        /*// Load the image and convert it to a byte array
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", baos);
-        byte[] imageData = baos.toByteArray();
+        byte[] imageData = baos.toByteArray();*/
 
         // Prepare the SQL statement
         pst = myConx.prepareStatement(updateQuery);
@@ -158,7 +162,7 @@ public void modifEventAdmin(EventAdmin e, Image image, int selectedIndex,int sel
         pst.setDate(2, sqlDate);
         pst.setString(3, e.getLieu_a());
         pst.setString(4, e.getDescription_a());
-        pst.setBytes(5, imageData);
+        pst.setString(5, path);
         pst.setInt(6, e.getPrix_a());
         pst.setInt(7, selectedId);
         
@@ -268,7 +272,7 @@ public void modifEventAdmin(EventAdmin e, Image image, int selectedIndex,int sel
     rs.getDate("date_a").toLocalDate(),
     rs.getString("lieu_a"),
     rs.getString("description_a"),
-    loadImageFromResultSet(rs),
+    rs.getString("image_a"),
     rs.getInt("prix_a")
 ));
                       
@@ -278,7 +282,10 @@ public void modifEventAdmin(EventAdmin e, Image image, int selectedIndex,int sel
         return EventAdminlist;
          
      }
-        private byte[] loadImageFromResultSet(ResultSet rs) throws SQLException {
+         
+         
+         
+       /* private byte[] loadImageFromResultSet(ResultSet rs) throws SQLException {
     // Assuming the image is stored as a BLOB in the database
     InputStream inputStream = rs.getBinaryStream("image_a");
     
@@ -296,22 +303,27 @@ public void modifEventAdmin(EventAdmin e, Image image, int selectedIndex,int sel
     }
     
     return null; // Return null if no image data was found
-}
+}*/
 
     
      
-     public void imporeterImg (AnchorPane main,ImageView espaceImg_a){
+     public String imporeterImg (AnchorPane main,ImageView espaceImg_a){
         FileChooser open = new FileChooser();
          open.getExtensionFilters().add(new FileChooser.ExtensionFilter("open Image File","*png","*jpg"));
          
         File file = open.showOpenDialog(main.getScene().getWindow());
 
         if (file != null) {
-            GetData.path = file.getAbsolutePath();
+           
 
              Image image = new Image(file.toURI().toString(), 101, 127, false, true);
               espaceImg_a.setImage(image);
+             String temp=file.getAbsolutePath();
+             
+            
+ return temp;
 }
+       return null;
 }
      
      

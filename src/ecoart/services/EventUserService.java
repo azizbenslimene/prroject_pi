@@ -59,9 +59,11 @@ public class EventUserService {
 
         return matcher.matches();
     }
-public void ajoutEventUser(EventUser e, Image image) throws IOException {
+public void ajoutEventUser(EventUser e, String path) throws IOException, SQLException {
     
-    try {
+        boolean isUnique = false; 
+    
+         String selectQuery = "SELECT * FROM eventadmin WHERE nom_a = ?";
         // Prepare the SQL INSERT query
         String insertQuery = "INSERT INTO eventuser (id, nom, date, lieu, description, image, prix) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -69,37 +71,52 @@ public void ajoutEventUser(EventUser e, Image image) throws IOException {
         LocalDate localdate = e.getDate_u();
         Date sqlDate = Date.valueOf(localdate);
 
-        // Load the image and convert it to a byte array
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+       PreparedStatement pst = myConx.prepareStatement(selectQuery);
+        pst.setString(1, e.getNom_u());
 
-        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", baos);
-        byte[] imageData = baos.toByteArray();
+        ResultSet resultSet = pst.executeQuery();
+        
+        
+        if (resultSet.next()) {
+            // An event with the same name already exists, set the flag to false
+            isUnique = false;
+            
+               Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Event Name Already Exists");
+            alert.setContentText("An event with the same name already exists.");
+            alert.showAndWait();
+            
+        }    
+        
+        else {
 
-        // Prepare the SQL statement
-        pst = myConx.prepareStatement(insertQuery);
+         pst = myConx.prepareStatement(insertQuery);
         pst.setInt(1, e.getId_u());
         pst.setString(2, e.getNom_u());
         pst.setDate(3, sqlDate);
         pst.setString(4, e.getLieu_u());
         pst.setString(5, e.getDescription_u());
-        pst.setBytes(6, imageData);
+   
+
+       
+        pst.setString(6, path);
+        
         pst.setInt(7, e.getPrix_u());
 
         // Execute the SQL statement to insert the event
         pst.executeUpdate();
 
         // Optionally, you can handle success or display a message here
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-        // Handle errors or display an error message
+   
     }
+
 }
 
 
     
     
-    
-public void modifEventUser(EventUser e, Image image, int selectedIndex,int selectedId) throws IOException {
+        public void modifEventUser(EventUser e, String path, int selectedIndex,int selectedId) throws IOException {
     try {
         // Prepare the SQL UPDATE query
         String updateQuery = "UPDATE eventuser SET nom = ?, date = ?, lieu = ?, description = ?, image = ?, prix = ? WHERE id = ?";
@@ -108,11 +125,7 @@ public void modifEventUser(EventUser e, Image image, int selectedIndex,int selec
         LocalDate localdate = e.getDate_u();
         Date sqlDate = Date.valueOf(localdate);
 
-        // Load the image and convert it to a byte array
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", baos);
-        byte[] imageData = baos.toByteArray();
 
         // Prepare the SQL statement
         pst = myConx.prepareStatement(updateQuery);
@@ -120,13 +133,19 @@ public void modifEventUser(EventUser e, Image image, int selectedIndex,int selec
                   
 
         
-        pst.setString(1, e.getNom_u());
-        pst.setDate(2, sqlDate);
-        pst.setString(3, e.getLieu_u());
-        pst.setString(4, e.getDescription_u());
-        pst.setBytes(5, imageData);
-        pst.setInt(6, e.getPrix_u());
-        pst.setInt(7, selectedId);
+    
+        pst.setInt(1, e.getId_u());
+        pst.setString(2, e.getNom_u());
+        pst.setDate(3, sqlDate);
+        pst.setString(4, e.getLieu_u());
+        pst.setString(5, e.getDescription_u());
+   
+
+       
+        pst.setString(6, path);
+        
+        pst.setInt(7, e.getPrix_u());
+
         
 
         // Execute the SQL statement to update the event
@@ -234,7 +253,7 @@ public void modifEventUser(EventUser e, Image image, int selectedIndex,int selec
                 rs.getDate("date").toLocalDate(),
                 rs.getString("lieu"),
                 rs.getString("description"),
-                loadImageFromResultSet(rs),
+                rs.getString("image"),
                 rs.getInt("prix")
             ));
                       
@@ -244,7 +263,7 @@ public void modifEventUser(EventUser e, Image image, int selectedIndex,int selec
         return EventUserlist;
          
      }
-        private byte[] loadImageFromResultSet(ResultSet rs) throws SQLException {
+      /*  private byte[] loadImageFromResultSet(ResultSet rs) throws SQLException {
     // Assuming the image is stored as a BLOB in the database
     InputStream inputStream = rs.getBinaryStream("image");
     
@@ -262,7 +281,7 @@ public void modifEventUser(EventUser e, Image image, int selectedIndex,int selec
     }
     
     return null; // Return null if no image data was found
-}
+}*/
 
     
      

@@ -87,7 +87,7 @@ public class EventUserController implements Initializable {
     @FXML
     private TextArea txtdesc_u;
 
-    
+     String path;
     MyConnection conx= MyConnection.getInstance();
     Connection myConx=conx.getConnection();
     String query = null;
@@ -121,12 +121,7 @@ public class EventUserController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(EventUserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try {
-            // TODO
-            a.ShowReservation(colnom_u, coldate_u, collieu_u, coldesc_u, colprix_u, tabResv_u);
-        } catch (SQLException ex) {
-            Logger.getLogger(EventUserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
         
     }    
 
@@ -146,12 +141,11 @@ public class EventUserController implements Initializable {
         Image image = espaceImg_u.getImage(); // Get the image from the ImageView
         int prix = Integer.parseInt(tfprix_u.getText());
         
-        String emptyString = "";
-       byte[] emptyByteArray = emptyString.getBytes();
+  
        
         // Create an EventUser object and call ajoutEventUser with it
-        EventUser e = new EventUser(id, nom, date, lieu, description,emptyByteArray, prix);
-        a.ajoutEventUser(e, image);
+        EventUser e = new EventUser(id, nom, date, lieu, description,path, prix);
+        a.ajoutEventUser(e, path);
 
         a.ShowReservation(colnom_u, coldate_u, collieu_u, coldesc_u, colprix_u, tabResv_u);
         // Optionally, you can handle success or display a message here
@@ -196,9 +190,7 @@ public class EventUserController implements Initializable {
         
         Image image = espaceImg_u.getImage(); // Get the image from the ImageView
         int prix = Integer.parseInt(tfprix_u.getText());
-        
-        String emptyString = "";
-       byte[] emptyByteArray = emptyString.getBytes();
+       
        
         // Create an EventUser object and call ajoutEventUser with it
          
@@ -210,8 +202,8 @@ if (selectedIndex >= 0) {
     EventUser selectedEvent = tabResv_u.getItems().get(selectedIndex);
     selectedId = selectedEvent.getId_u();
 }
-            EventUser e = new EventUser(id, nom, date, lieu, description,emptyByteArray, prix);
-            a.modifEventUser(e, image, selectedIndex, selectedId);
+            EventUser e = new EventUser(id, nom, date, lieu, description,path, prix);
+            a.modifEventUser(e, path, selectedIndex, selectedId);
 
 
         a.ShowReservation(colnom_u, coldate_u, collieu_u, coldesc_u, colprix_u, tabResv_u);
@@ -244,12 +236,7 @@ if (selectedEvent != null) {
             // Retrieve the image data as a byte array
             byte[] imageData = rs.getBytes("image");
 
-            // Convert the byte array to an Image
-            Image image = new Image(new ByteArrayInputStream(imageData));
-
-            // Set the image in the ImageView
-            espaceImg_u.setImage(image);
-
+            
             // Fill other JavaFX controls
             tfnom_u.setText(nom_u); // Fill TextField
             daterev_u.setValue(rs.getDate("date").toLocalDate()); // Fill DatePicker

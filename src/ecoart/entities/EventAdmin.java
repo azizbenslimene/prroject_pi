@@ -18,7 +18,7 @@ import javafx.scene.image.Image;
     private LocalDate date_a;
     private String lieu_a;
     private String description_a;
-    private byte[] image_a; // Change the image data type to byte array
+    private String image_a; // Change the image data type to byte array
     private int prix_a;
     
     
@@ -26,7 +26,7 @@ import javafx.scene.image.Image;
     public EventAdmin() {
     }
 
-    public EventAdmin(int id_a, String nom_a, LocalDate date_a, String lieu_a, String description_a, byte[] image_a, int prix_a) {
+    public EventAdmin(int id_a, String nom_a, LocalDate date_a, String lieu_a, String description_a, String image_a, int prix_a) {
         this.id_a = id_a;
         this.nom_a = nom_a;
         this.date_a = date_a;
@@ -34,14 +34,6 @@ import javafx.scene.image.Image;
         this.description_a = description_a;
         this.image_a = image_a;
         this.prix_a = prix_a;
-    }
-
-    public EventAdmin(int id, String nom, LocalDate date, String lieu, String description, int prix) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public EventAdmin(int id, String nom, LocalDate date, String lieu, String description, byte[] imageData) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public int getId_a() {
@@ -84,11 +76,11 @@ import javafx.scene.image.Image;
         this.description_a = description_a;
     }
 
-    public byte[] getImage_a() {
+    public String getImage_a() {
         return image_a;
     }
 
-    public void setImage_a(byte[] image_a) {
+    public void setImage_a(String image_a) {
         this.image_a = image_a;
     }
 
@@ -100,6 +92,12 @@ import javafx.scene.image.Image;
         this.prix_a = prix_a;
     }
 
+    @Override
+    public String toString() {
+        return "EventAdmin{" + "id_a=" + id_a + ", nom_a=" + nom_a + ", date_a=" + date_a + ", lieu_a=" + lieu_a + ", description_a=" + description_a + ", image_a=" + image_a + ", prix_a=" + prix_a + '}';
+    }
+
+    
     
    
     

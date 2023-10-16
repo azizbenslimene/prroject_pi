@@ -95,7 +95,7 @@ public class EventAdminController implements Initializable {
     @FXML
     private TextArea txtdesc_a;
     
-
+       String path;
    MyConnection conx= MyConnection.getInstance();
     Connection myConx=conx.getConnection();
     String query = null;
@@ -152,8 +152,8 @@ public class EventAdminController implements Initializable {
        byte[] emptyByteArray = emptyString.getBytes();
        
         // Create an EventAdmin object and call ajoutEventAdmin with it
-        EventAdmin e = new EventAdmin(id, nom, date, lieu, description,emptyByteArray, prix);
-        a.ajoutEventAdmin(e, image);
+        EventAdmin e = new EventAdmin(id, nom, date, lieu, description,path, prix);
+        a.ajoutEventAdmin(e, path);
 
         a.ShowReservation(colnom_a, coldate_a, collieu_a, coldesc_a, colprix_a, tabResv_a);
         // Optionally, you can handle success or display a message here
@@ -200,8 +200,8 @@ if (selectedIndex >= 0) {
     EventAdmin selectedEvent = tabResv_a.getItems().get(selectedIndex);
     selectedId = selectedEvent.getId_a();
 }
-            EventAdmin e = new EventAdmin(id, nom, date, lieu, description,emptyByteArray, prix);
-            a.modifEventAdmin(e, image, selectedIndex, selectedId);
+            EventAdmin e = new EventAdmin(id, nom, date, lieu, description,path, prix);
+            a.modifEventAdmin(e, path, selectedIndex, selectedId);
 
         
        
@@ -258,13 +258,11 @@ if (selectedEvent != null) {
 
         if (rs.next()) {
             // Retrieve the image data as a byte array
-            byte[] imageData = rs.getBytes("image_a");
+     
 
-            // Convert the byte array to an Image
-            Image image = new Image(new ByteArrayInputStream(imageData));
+    
 
-            // Set the image in the ImageView
-            espaceImg_a.setImage(image);
+ 
 
             // Fill other JavaFX controls
             tfnom_a.setText(nom_a); // Fill TextField
@@ -282,8 +280,10 @@ if (selectedEvent != null) {
 
     @FXML
     private void importerImg_a(MouseEvent event) {
+        
         EventAdminService aa =new EventAdminService();
-        aa.imporeterImg(main,espaceImg_a);
+       path=aa.imporeterImg(main,espaceImg_a);
+        System.out.println(path);
     }
 
 

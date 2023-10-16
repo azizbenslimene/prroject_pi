@@ -17,13 +17,13 @@ public class EventUser {
     private LocalDate date_u ;
      private String lieu_u ;
     private String description_u ;
-     private byte[] image_u;
+     private String image_u;
     private int prix_u;
 
     public EventUser() {
     }
 
-    public EventUser(int id_u, String nom_u, LocalDate date_u, String lieu_u, String description_u, byte[] image_u, int prix_u) {
+    public EventUser(int id_u, String nom_u, LocalDate date_u, String lieu_u, String description_u, String image_u, int prix_u) {
         this.id_u = id_u;
         this.nom_u = nom_u;
         this.date_u = date_u;
@@ -73,11 +73,11 @@ public class EventUser {
         this.description_u = description_u;
     }
 
-    public byte[] getImage_u() {
+    public String getImage_u() {
         return image_u;
     }
 
-    public void setImage_u(byte[] image_u) {
+    public void setImage_u(String image_u) {
         this.image_u = image_u;
     }
 
@@ -93,6 +93,8 @@ public class EventUser {
     public String toString() {
         return "EventUser{" + "id_u=" + id_u + ", nom_u=" + nom_u + ", date_u=" + date_u + ", lieu_u=" + lieu_u + ", description_u=" + description_u + ", image_u=" + image_u + ", prix_u=" + prix_u + '}';
     }
+
+   
     
 
   
