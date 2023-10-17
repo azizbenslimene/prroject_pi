@@ -7,6 +7,8 @@ package ecoart.services;
 
 import ecoart.entities.Event;
 import ecoart.entities.EventAdmin;
+import ecoart.entities.EventUser;
+
 import ecoart.utils.MyConnection;
 import java.sql.Connection;
 import java.sql.Date;
@@ -85,12 +87,34 @@ public class EventService {
     rs.getString("image_a"),
     rs.getInt("prix_a")
 ));
+            }
+              
+                   String query2 = "select * from eventuser";
+              pst = myConx.prepareStatement(query2);
+               rs =pst.executeQuery(query2);
+           
+            while (rs.next()){
+              Eventlist.add(new EventAdmin(
+    rs.getInt("id"),         ///id_a de DB
+    rs.getString("nom"),
+    rs.getDate("date").toLocalDate(),
+    rs.getString("lieu"),
+    rs.getString("description"),
+    rs.getString("image"),
+    rs.getInt("prix")
+));
+              
                       
                         } 
      
      
         return Eventlist;
          
-     }
+     
+           
+}
+         
+
+
 }
 

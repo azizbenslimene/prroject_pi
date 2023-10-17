@@ -33,7 +33,7 @@ public class HomePage extends Application {
     public void start(Stage primaryStage) {
        
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("EventUser.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("EventAdmin.fxml"));
             
             Scene scene = new Scene(root, 1000, 700);
             

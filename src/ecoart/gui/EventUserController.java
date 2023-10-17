@@ -12,6 +12,7 @@ import static ecoart.gui.HomePage.main;
 import ecoart.services.EventUserService;
 import ecoart.utils.MyConnection;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -145,7 +146,7 @@ public class EventUserController implements Initializable {
        
         // Create an EventUser object and call ajoutEventUser with it
         EventUser e = new EventUser(id, nom, date, lieu, description,path, prix);
-        a.ajoutEventUser(e, path);
+        a.ajoutEventUser(e,path);
 
         a.ShowReservation(colnom_u, coldate_u, collieu_u, coldesc_u, colprix_u, tabResv_u);
         // Optionally, you can handle success or display a message here
@@ -186,12 +187,9 @@ public class EventUserController implements Initializable {
         LocalDate date = daterev_u.getValue();
         String lieu = combolieu_u.getSelectionModel().getSelectedItem().toString();
         String description = txtdesc_u.getText();
-        
-        
-        Image image = espaceImg_u.getImage(); // Get the image from the ImageView
+       
+         // Get the image from the ImageView
         int prix = Integer.parseInt(tfprix_u.getText());
-       
-       
         // Create an EventUser object and call ajoutEventUser with it
          
         int selectedIndex = tabResv_u.getSelectionModel().getSelectedIndex();
@@ -202,8 +200,9 @@ if (selectedIndex >= 0) {
     EventUser selectedEvent = tabResv_u.getItems().get(selectedIndex);
     selectedId = selectedEvent.getId_u();
 }
-            EventUser e = new EventUser(id, nom, date, lieu, description,path, prix);
-            a.modifEventUser(e, path, selectedIndex, selectedId);
+            EventUser e = new EventUser(selectedId, nom, date, lieu, description,path, prix);
+                
+            a.modifEventUser(e, path);
 
 
         a.ShowReservation(colnom_u, coldate_u, collieu_u, coldesc_u, colprix_u, tabResv_u);
@@ -218,14 +217,11 @@ if (selectedIndex >= 0) {
     private void tab_u(MouseEvent event) {
         
          EventUser selectedEvent = tabResv_u.getSelectionModel().getSelectedItem();
-
 if (selectedEvent != null) {
     String nom_u = selectedEvent.getNom_u();
-    String lieu_u = selectedEvent.getLieu_u();
-    
+    String lieu_u = selectedEvent.getLieu_u();   
     // Query the database to get the image data and other information based on nom_a and lieu_a
     String query = "SELECT image, date, prix, description FROM eventuser WHERE nom = ? AND lieu = ?";
-
     try {
         pst = myConx.prepareStatement(query);
         pst.setString(1, nom_u);
@@ -233,10 +229,11 @@ if (selectedEvent != null) {
         ResultSet rs = pst.executeQuery();
 
         if (rs.next()) {
-            // Retrieve the image data as a byte array
-            byte[] imageData = rs.getBytes("image");
-
-            
+            path=rs.getString("image");
+            File imageFile = new File(path);
+            Image image = new Image(imageFile.toURI().toString());
+            espaceImg_u.setImage(image);
+            System.out.println(path);
             // Fill other JavaFX controls
             tfnom_u.setText(nom_u); // Fill TextField
             daterev_u.setValue(rs.getDate("date").toLocalDate()); // Fill DatePicker
@@ -253,7 +250,7 @@ if (selectedEvent != null) {
     @FXML
     private void importerImg_u(MouseEvent event) {
         EventUserService a =new EventUserService();
-        a.imporeterImg(main_u,espaceImg_u);
+       path=a.imporeterImg(main_u,espaceImg_u);
     }
 
 

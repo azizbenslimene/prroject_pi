@@ -74,6 +74,18 @@ public class EventAdminService {
         return matcher.matches();
     }
 public void ajoutEventAdmin(EventAdmin e, String path) throws IOException, SQLException {
+    // Validation du nom
+     
+        
+          if (!validerNom(e.getNom_a())) {
+        // Afficher un message d'erreur si le nom est invalide
+        // Vous pouvez utiliser une boîte de dialogue ou une autre méthode pour afficher l'erreur à l'utilisateur.
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+ 
+        alert.setContentText("Le nom doit contenir uniquement des lettres ");
+        alert.showAndWait();
+        return; // Sortir de la méthode si la validation échoue.
+    }
     
     boolean isUnique = false; 
     
@@ -137,7 +149,7 @@ public void ajoutEventAdmin(EventAdmin e, String path) throws IOException, SQLEx
     
     
     
-public void modifEventAdmin(EventAdmin e, String path, int selectedIndex,int selectedId) throws IOException {
+public void modifEventAdmin(EventAdmin e, String path) throws IOException {
     try {
         // Prepare the SQL UPDATE query
         String updateQuery = "UPDATE eventadmin SET nom_a = ?, date_a = ?, lieu_a = ?, description_a = ?, image_a = ?, prix_a = ? WHERE id_a = ?";
@@ -160,22 +172,23 @@ public void modifEventAdmin(EventAdmin e, String path, int selectedIndex,int sel
         
         pst.setString(1, e.getNom_a());
         pst.setDate(2, sqlDate);
-        pst.setString(3, e.getLieu_a());
+        pst.setString(3,e.getLieu_a());
         pst.setString(4, e.getDescription_a());
         pst.setString(5, path);
         pst.setInt(6, e.getPrix_a());
-        pst.setInt(7, selectedId);
+        
+        pst.setInt(7, e.getId_a());
         
 
         // Execute the SQL statement to update the event
         pst.executeUpdate();
 
-        // Display a confirmation message using the event's name
+       /* // Display a confirmation message using the event's name
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Confirmation Message");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to UPDATE your event: " + e.getNom_a() + "?");
-        Optional<ButtonType> option = alert.showAndWait();
+        Optional<ButtonType> option = alert.showAndWait();*/
 
         // Optionally, you can handle success or display a message here
     } catch (SQLException ex) {

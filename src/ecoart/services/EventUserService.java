@@ -51,7 +51,7 @@ public class EventUserService {
     ResultSet rs = null;
     
     
-    
+  
     public boolean validerNom(String nom) {
         String regex = "^[a-zA-Z ]+$";
         Pattern pattern = Pattern.compile(regex);
@@ -59,7 +59,7 @@ public class EventUserService {
 
         return matcher.matches();
     }
-public void ajoutEventUser(EventUser e, String path) throws IOException, SQLException {
+public void ajoutEventUser(EventUser e,String path) throws IOException, SQLException {
     
         boolean isUnique = false; 
     
@@ -98,8 +98,6 @@ public void ajoutEventUser(EventUser e, String path) throws IOException, SQLExce
         pst.setString(4, e.getLieu_u());
         pst.setString(5, e.getDescription_u());
    
-
-       
         pst.setString(6, path);
         
         pst.setInt(7, e.getPrix_u());
@@ -116,7 +114,7 @@ public void ajoutEventUser(EventUser e, String path) throws IOException, SQLExce
 
     
     
-        public void modifEventUser(EventUser e, String path, int selectedIndex,int selectedId) throws IOException {
+        public void modifEventUser(EventUser e, String path) throws IOException {
     try {
         // Prepare the SQL UPDATE query
         String updateQuery = "UPDATE eventuser SET nom = ?, date = ?, lieu = ?, description = ?, image = ?, prix = ? WHERE id = ?";
@@ -125,38 +123,24 @@ public void ajoutEventUser(EventUser e, String path) throws IOException, SQLExce
         LocalDate localdate = e.getDate_u();
         Date sqlDate = Date.valueOf(localdate);
 
-
-
         // Prepare the SQL statement
         pst = myConx.prepareStatement(updateQuery);
+ 
+        pst.setString(1, e.getNom_u());
+        pst.setDate(2, sqlDate);
+        pst.setString(3,e.getLieu_u() );
+        pst.setString(4, e.getDescription_u());
+        pst.setString(5, path);
+        pst.setInt(6, e.getPrix_u());
         
-                  
+        pst.setInt(7, e.getId_u());
 
-        
-    
-        pst.setInt(1, e.getId_u());
-        pst.setString(2, e.getNom_u());
-        pst.setDate(3, sqlDate);
-        pst.setString(4, e.getLieu_u());
-        pst.setString(5, e.getDescription_u());
-   
-
-       
-        pst.setString(6, path);
-        
-        pst.setInt(7, e.getPrix_u());
-
-        
 
         // Execute the SQL statement to update the event
         pst.executeUpdate();
 
         // Display a confirmation message using the event's name
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation Message");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to UPDATE your event: " + e.getNom_u()+ "?");
-        Optional<ButtonType> option = alert.showAndWait();
+      
 
         // Optionally, you can handle success or display a message here
     } catch (SQLException ex) {
@@ -285,18 +269,20 @@ public void ajoutEventUser(EventUser e, String path) throws IOException, SQLExce
 
     
      
-     public void imporeterImg (AnchorPane mainAnchorPane,ImageView espaceImg_u){
+     public String imporeterImg (AnchorPane mainAnchorPane,ImageView espaceImg_u){
         FileChooser open = new FileChooser();
          open.getExtensionFilters().add(new FileChooser.ExtensionFilter("open Image File","*png","*jpg"));
          
         File file = open.showOpenDialog(mainAnchorPane.getScene().getWindow());
 
         if (file != null) {
-            GetData.path = file.getAbsolutePath();
+            String paths = file.getAbsolutePath();
 
              Image image = new Image(file.toURI().toString(), 101, 127, false, true);
               espaceImg_u.setImage(image);
+              return paths;
 }
+     else   return null;
 }
      
      

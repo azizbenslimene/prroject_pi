@@ -11,6 +11,7 @@ import ecoart.utils.MyConnection;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -184,11 +185,10 @@ private void Modresv(MouseEvent event) {
         String description = txtdesc_a.getText();
         
         
-        Image image = espaceImg_a.getImage(); // Get the image from the ImageView
+       
         int prix = Integer.parseInt(tfprix_a.getText());
         
-        String emptyString = "";
-       byte[] emptyByteArray = emptyString.getBytes();
+
        
         // Create an EventAdmin object and call ajoutEventAdmin with it
          
@@ -197,14 +197,13 @@ private void Modresv(MouseEvent event) {
 
 if (selectedIndex >= 0) {
     // If a row is selected, retrieve the ID from the database
-    EventAdmin selectedEvent = tabResv_a.getItems().get(selectedIndex);
+    EventAdmin selectedEvent = tabResv_a.getSelectionModel().getSelectedItem();
     selectedId = selectedEvent.getId_a();
+    
 }
-            EventAdmin e = new EventAdmin(id, nom, date, lieu, description,path, prix);
-            a.modifEventAdmin(e, path, selectedIndex, selectedId);
+            EventAdmin e = new EventAdmin(selectedId, nom, date, lieu, description,path, prix);
+            a.modifEventAdmin(e, path);
 
-        
-       
 
         a.ShowReservation(colnom_a, coldate_a, collieu_a, coldesc_a, colprix_a, tabResv_a);
         // Optionally, you can handle success or display a message here
@@ -245,25 +244,20 @@ if (selectedIndex >= 0) {
 
 if (selectedEvent != null) {
     String nom_a = selectedEvent.getNom_a();
-    String lieu_a = selectedEvent.getLieu_a();
-    
+    String lieu_a = selectedEvent.getLieu_a();   
     // Query the database to get the image data and other information based on nom_a and lieu_a
     String query = "SELECT image_a, date_a, prix_a, description_a FROM eventadmin WHERE nom_a = ? AND lieu_a = ?";
-
     try {
         pst = myConx.prepareStatement(query);
         pst.setString(1, nom_a);
         pst.setString(2, lieu_a);
         ResultSet rs = pst.executeQuery();
-
         if (rs.next()) {
-            // Retrieve the image data as a byte array
-     
-
-    
-
- 
-
+             path=rs.getString("image_a");
+            File imageFile = new File(path);
+            Image image = new Image(imageFile.toURI().toString());
+            espaceImg_a.setImage(image);
+            System.out.println(path);
             // Fill other JavaFX controls
             tfnom_a.setText(nom_a); // Fill TextField
             daterev_a.setValue(rs.getDate("date_a").toLocalDate()); // Fill DatePicker
