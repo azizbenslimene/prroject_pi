@@ -111,12 +111,10 @@ public class EventAdminController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
        
       
-        ObservableList<String> items = FXCollections.observableArrayList(
-            "Value 1",
-            "Value 2",
-            "Value 3",
-            "Value 4",
-            "Value 5");
+        ObservableList<String> items = FXCollections.observableArrayList("ariana","beja","ben arous","bizert","tatwin","touzeur","tunis","jandouba","zaghwen","silyana","sousse",
+                "sidi bouzid","safax","gbeli","gasrin","gafsa","kerwan","keef","mednin","mounastir","manouba","mahdia","nabeul");
+            
+            
         combolieu_a.setItems(items);
 
        

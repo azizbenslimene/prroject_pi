@@ -5,12 +5,17 @@
  */
 package ecoart.gui;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Loader;
+
 import ecoart.entities.Event;
 import ecoart.entities.EventAdmin;
 import ecoart.services.EventService;
+import ecoart.utils.MyConnection;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -26,6 +31,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -58,8 +64,13 @@ public class InterfaceEventController implements Initializable {
     private TableView<EventAdmin> tabview_event;
     
     EventService ES=new EventService();
-    @FXML
-    private Label labeleventnom;
+    
+     String path;
+   MyConnection conx= MyConnection.getInstance();
+    Connection myConx=conx.getConnection();
+    String query = null;
+    PreparedStatement pst = null;
+    ResultSet rs = null;
     /**
      * Initializes the controller class.
      */
@@ -73,9 +84,22 @@ public class InterfaceEventController implements Initializable {
     }    
 
     @FXML
-    private void tab_event(MouseEvent event) {
-    }
+    private void tab_event(MouseEvent event) throws SQLException {
+        
+         String query = "SELECT image_a FROM eventadmin";
+         
+         pst = myConx.prepareStatement(query);
 
+         ResultSet rs = pst.executeQuery();
+    
+    while (rs.next()) {
+        String path = rs.getString("image_a");
+        File imageFile = new File(path);
+        Image image = new Image(imageFile.toURI().toString());
+        imageview_event.setImage(image);
+        System.out.println(path);
+    }
+    }
     @FXML
     private void reserverTicket(MouseEvent event ) throws IOException {
         
@@ -90,7 +114,7 @@ public class InterfaceEventController implements Initializable {
             selectedEvent.getNom_a(),
             formattedDate,
             selectedEvent.getLieu_a(),
-            selectedEvent.getDescription_a(),
+          
             selectedEvent.getPrix_a()
         );
 
@@ -98,8 +122,17 @@ public class InterfaceEventController implements Initializable {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+   
+    }
 
+    @FXML
+    private void retour_ev(MouseEvent event) throws IOException {
+        Object root = FXMLLoader.load(getClass().getResource("EventUser.fxml"));
+        Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
         
+        Scene scene = new Scene((Parent) root);
+          primaryStage.setScene(scene);
+           primaryStage.show();
     }
 
 }

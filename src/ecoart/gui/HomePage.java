@@ -33,9 +33,9 @@ public class HomePage extends Application {
     public void start(Stage primaryStage) {
        
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("EventAdmin.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("EventUser.fxml"));
             
-            Scene scene = new Scene(root, 1000, 700);
+            Scene scene = new Scene(root, 1150, 820);
             
             primaryStage.setTitle("Hello World!");
             primaryStage.setScene(scene);

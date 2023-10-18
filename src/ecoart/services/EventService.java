@@ -89,6 +89,17 @@ public class EventService {
 ));
             }
               
+     
+        return Eventlist;
+         
+     
+           
+}
+}
+         
+
+
+
                   /* String query2 = "select * from eventuser";
               pst = myConx.prepareStatement(query2);
                rs =pst.executeQuery(query2);
@@ -107,15 +118,4 @@ public class EventService {
                       
                         } */
      
-     
-        return Eventlist;
-         
-     
-           
-}
-}
-         
-
-
-
 

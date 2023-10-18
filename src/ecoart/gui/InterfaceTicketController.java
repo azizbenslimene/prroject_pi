@@ -37,11 +37,11 @@ public class InterfaceTicketController implements Initializable {
         
     }
         // TODO
-    public void setEventInfo(String nom, String date, String lieu, String description, int prix) {
+    public void setEventInfo(String nom, String date, String lieu,  int prix) {
         labelnom.setText(nom);
         labeldate.setText(date);
         labellieu.setText(lieu);
-        labeldesc.setText(description);
+    
         labelprix.setText(Integer.toString(prix));
     } 
    /* public void setnom_a (String nom_a){
