@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="687.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecoart.gui.InterfaceEventController">
+<AnchorPane id="AnchorPane" prefHeight="752.0" prefWidth="865.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecoart.gui.InterfaceEventController">
    <children>
       <TableView fx:id="tabview_event" layoutX="100.0" layoutY="109.0" onMouseClicked="#tab_event" prefHeight="240.0" prefWidth="584.0">
         <columns>
@@ -25,11 +25,13 @@
          </font>
       </Label>
       <Label layoutX="86.0" layoutY="409.0" text="image :" />
-      <AnchorPane fx:id="anchorpane_event" layoutX="135.0" layoutY="362.0" prefHeight="287.0" prefWidth="255.0">
+      <AnchorPane fx:id="anchorpane_event" layoutX="135.0" layoutY="362.0" prefHeight="80.0" prefWidth="118.0">
          <children>
-            <ImageView fx:id="imageview_event" fitHeight="287.0" fitWidth="255.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageview_event" fitHeight="111.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
-      <Button fx:id="btresv_event" layoutX="664.0" layoutY="506.0" mnemonicParsing="false" onMouseClicked="#reserverTicket" prefHeight="35.0" prefWidth="94.0" text="Reserver" />
+      <Button fx:id="btresv_event" layoutX="698.0" layoutY="612.0" mnemonicParsing="false" onMouseClicked="#reserverTicket" prefHeight="35.0" prefWidth="94.0" text="Reserver" />
+      <Label layoutX="92.0" layoutY="576.0" text="nom:" />
+      <Label fx:id="labeleventnom" layoutX="196.0" layoutY="576.0" />
    </children>
 </AnchorPane>

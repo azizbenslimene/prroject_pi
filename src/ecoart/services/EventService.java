@@ -71,7 +71,7 @@ public class EventService {
      
      
    
-     String query = "select * from eventadmin,eventuser";
+     String query = "select * from eventadmin";
  
  
             pst = myConx.prepareStatement(query);
@@ -89,7 +89,7 @@ public class EventService {
 ));
             }
               
-                   String query2 = "select * from eventuser";
+                  /* String query2 = "select * from eventuser";
               pst = myConx.prepareStatement(query2);
                rs =pst.executeQuery(query2);
            
@@ -105,7 +105,7 @@ public class EventService {
 ));
               
                       
-                        } 
+                        } */
      
      
         return Eventlist;
@@ -113,8 +113,9 @@ public class EventService {
      
            
 }
+}
          
 
 
-}
+
 

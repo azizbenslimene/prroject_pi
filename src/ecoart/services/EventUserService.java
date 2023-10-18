@@ -59,57 +59,51 @@ public class EventUserService {
 
         return matcher.matches();
     }
-public void ajoutEventUser(EventUser e,String path) throws IOException, SQLException {
+public void ajoutEventUser(EventUser e, String path) throws IOException, SQLException {
+    boolean isUnique = false;
     
-        boolean isUnique = false; 
+    String selectQuery = "SELECT * FROM eventadmin WHERE nom_a = ?";
+    String insertQuery = "INSERT INTO eventuser (id, nom, date, lieu, description, image, prix) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    String insertQuery2 = "INSERT INTO eventadmin (id_a, nom_a, date_a, lieu_a, description_a, image_a, prix_a) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
-         String selectQuery = "SELECT * FROM eventadmin WHERE nom_a = ?";
-        // Prepare the SQL INSERT query
-        String insertQuery = "INSERT INTO eventuser (id, nom, date, lieu, description, image, prix) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        // Convert the JavaFX LocalDate to a SQL Date
-        LocalDate localdate = e.getDate_u();
-        Date sqlDate = Date.valueOf(localdate);
-
-       PreparedStatement pst = myConx.prepareStatement(selectQuery);
-        pst.setString(1, e.getNom_u());
-
-        ResultSet resultSet = pst.executeQuery();
-        
-        
-        if (resultSet.next()) {
-            // An event with the same name already exists, set the flag to false
-            isUnique = false;
-            
-               Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("Event Name Already Exists");
-            alert.setContentText("An event with the same name already exists.");
-            alert.showAndWait();
-            
-        }    
-        
-        else {
-
-         pst = myConx.prepareStatement(insertQuery);
+    LocalDate localdate = e.getDate_u();
+    Date sqlDate = Date.valueOf(localdate);
+    
+    PreparedStatement pst = myConx.prepareStatement(selectQuery);
+    pst.setString(1, e.getNom_u());
+    ResultSet resultSet = pst.executeQuery();
+    
+    if (resultSet.next()) {
+        isUnique = false;
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Event Name Already Exists");
+        alert.setContentText("An event with the same name already exists.");
+        alert.showAndWait();
+    } else {
+        pst = myConx.prepareStatement(insertQuery);
         pst.setInt(1, e.getId_u());
         pst.setString(2, e.getNom_u());
         pst.setDate(3, sqlDate);
         pst.setString(4, e.getLieu_u());
         pst.setString(5, e.getDescription_u());
-   
         pst.setString(6, path);
-        
         pst.setInt(7, e.getPrix_u());
-
-        // Execute the SQL statement to insert the event
         pst.executeUpdate();
-
-        // Optionally, you can handle success or display a message here
-   
+        
+        // Insert into the eventadmin table with the same data
+        PreparedStatement pst2 = myConx.prepareStatement(insertQuery2);
+        pst2.setInt(1, e.getId_u());
+        pst2.setString(2, e.getNom_u());
+        pst2.setDate(3, sqlDate);
+        pst2.setString(4, e.getLieu_u());
+        pst2.setString(5, e.getDescription_u());
+        pst2.setString(6, path);
+        pst2.setInt(7, e.getPrix_u());
+        pst2.executeUpdate();
     }
-
 }
+
 
 
     

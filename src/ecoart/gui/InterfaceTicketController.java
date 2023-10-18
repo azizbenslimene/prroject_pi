@@ -7,7 +7,9 @@ package ecoart.gui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
@@ -16,12 +18,34 @@ import javafx.fxml.Initializable;
  */
 public class InterfaceTicketController implements Initializable {
 
+    @FXML
+    private Label labeldate;
+    @FXML
+    private Label labellieu;
+    @FXML
+    private Label labeldesc;
+    @FXML
+    private Label labelprix;
+    @FXML
+    private Label labelnom;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+    }
         // TODO
-    }    
-    
+    public void setEventInfo(String nom, String date, String lieu, String description, int prix) {
+        labelnom.setText(nom);
+        labeldate.setText(date);
+        labellieu.setText(lieu);
+        labeldesc.setText(description);
+        labelprix.setText(Integer.toString(prix));
+    } 
+   /* public void setnom_a (String nom_a){
+        Eventnom =nom_a ;
+        labelnom.setText(Eventnom);*/
+
 }

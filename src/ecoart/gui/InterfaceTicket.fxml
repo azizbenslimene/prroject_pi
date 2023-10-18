@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecoart.gui.InterfaceTicketController">
-    
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ecoart.gui.InterfaceTicketController">
+   <children>
+      <Label layoutX="261.0" layoutY="69.0" text="Votre ticket" />
+      <Label layoutX="40.0" layoutY="143.0" text="nom:" />
+      <Label layoutX="40.0" layoutY="183.0" text="Date:" />
+      <Label layoutX="33.0" layoutY="215.0" text="Lieu" />
+      <Label layoutX="30.0" layoutY="252.0" text="description:" />
+      <Label layoutX="98.0" layoutY="143.0" prefHeight="17.0" prefWidth="122.0" />
+      <Label fx:id="labelnom" layoutX="108.0" layoutY="153.0" prefHeight="17.0" prefWidth="122.0" />
+      <Label fx:id="labeldate" layoutX="108.0" layoutY="183.0" prefHeight="17.0" prefWidth="122.0" />
+      <Label fx:id="labellieu" layoutX="94.0" layoutY="215.0" prefHeight="17.0" prefWidth="110.0" />
+      <Label fx:id="labeldesc" layoutX="108.0" layoutY="252.0" />
+      <Label layoutX="47.0" layoutY="286.0" text="prix:" />
+      <Label fx:id="labelprix" layoutX="94.0" layoutY="286.0" />
+      <Button layoutX="447.0" layoutY="326.0" mnemonicParsing="false" text="payement" />
+   </children>
 </AnchorPane>
