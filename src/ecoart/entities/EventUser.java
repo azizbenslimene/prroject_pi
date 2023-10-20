@@ -19,6 +19,7 @@ public class EventUser {
     private String description_u ;
      private String image_u;
     private int prix_u;
+    private String pathQR;
 
     public EventUser() {
     }
@@ -33,6 +34,27 @@ public class EventUser {
         this.prix_u = prix_u;
     }
 
+    public EventUser(int id_u, String nom_u, LocalDate date_u, String lieu_u, String description_u, String image_u, int prix_u, String pathQR) {
+        this.id_u = id_u;
+        this.nom_u = nom_u;
+        this.date_u = date_u;
+        this.lieu_u = lieu_u;
+        this.description_u = description_u;
+        this.image_u = image_u;
+        this.prix_u = prix_u;
+        this.pathQR = pathQR;
+    }
+
+    public EventUser(String nom_u, LocalDate date_u, String lieu_u, String description_u, String image_u, int prix_u, String pathQR) {
+        this.nom_u = nom_u;
+        this.date_u = date_u;
+        this.lieu_u = lieu_u;
+        this.description_u = description_u;
+        this.image_u = image_u;
+        this.prix_u = prix_u;
+        this.pathQR = pathQR;
+    }
+    
     public int getId_u() {
         return id_u;
     }
@@ -89,10 +111,20 @@ public class EventUser {
         this.prix_u = prix_u;
     }
 
+    public String getPathQR() {
+        return pathQR;
+    }
+
+    public void setPathQR(String pathQR) {
+        this.pathQR = pathQR;
+    }
+
     @Override
     public String toString() {
-        return "EventUser{" + "id_u=" + id_u + ", nom_u=" + nom_u + ", date_u=" + date_u + ", lieu_u=" + lieu_u + ", description_u=" + description_u + ", image_u=" + image_u + ", prix_u=" + prix_u + '}';
+        return "EventUser{" + "id_u=" + id_u + ", nom_u=" + nom_u + ", date_u=" + date_u + ", lieu_u=" + lieu_u + ", description_u=" + description_u + ", image_u=" + image_u + ", prix_u=" + prix_u + ", pathQR=" + pathQR + '}';
     }
+    
+    
 
    
     

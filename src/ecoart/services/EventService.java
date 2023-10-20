@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,6 +37,7 @@ public class EventService {
    
     PreparedStatement pst = null;
     ResultSet rs = null;
+    EventAdminService a =new EventAdminService();
     
     public void showevents(Event e, String path) throws SQLException{
     
@@ -85,7 +87,8 @@ public class EventService {
     rs.getString("lieu_a"),
     rs.getString("description_a"),
     rs.getString("image_a"),
-    rs.getInt("prix_a")
+    rs.getInt("prix_a"),
+                      rs.getString("path_qr")
 ));
             }
               
@@ -95,8 +98,15 @@ public class EventService {
      
            
 }
-}
          
+       
+        
+          }
+          
+          
+          
+         
+
 
 
 

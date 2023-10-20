@@ -8,6 +8,8 @@ package ecoart.entities;
 import java.time.LocalDate;
 import javafx.scene.image.Image;
 
+
+
 /**
  *
  * @author ASUS
@@ -20,6 +22,15 @@ import javafx.scene.image.Image;
     private String description_a;
     private String image_a; // Change the image data type to byte array
     private int prix_a;
+    private String pathQR ;
+
+    public String getPathQR() {
+        return pathQR;
+    }
+
+    public void setPathQR(String pathQR) {
+        this.pathQR = pathQR;
+    }
     
     
     
@@ -35,6 +46,28 @@ import javafx.scene.image.Image;
         this.image_a = image_a;
         this.prix_a = prix_a;
     }
+
+    public EventAdmin(String nom_a, LocalDate date_a, String lieu_a, String description_a, String image_a, int prix_a, String pathQR) {
+        this.nom_a = nom_a;
+        this.date_a = date_a;
+        this.lieu_a = lieu_a;
+        this.description_a = description_a;
+        this.image_a = image_a;
+        this.prix_a = prix_a;
+        this.pathQR = pathQR;
+    }
+
+    public EventAdmin(int id_a, String nom_a, LocalDate date_a, String lieu_a, String description_a, String image_a, int prix_a, String pathQR) {
+        this.id_a = id_a;
+        this.nom_a = nom_a;
+        this.date_a = date_a;
+        this.lieu_a = lieu_a;
+        this.description_a = description_a;
+        this.image_a = image_a;
+        this.prix_a = prix_a;
+        this.pathQR = pathQR;
+    }
+    
 
     public int getId_a() {
         return id_a;
@@ -94,10 +127,9 @@ import javafx.scene.image.Image;
 
     @Override
     public String toString() {
-        return "EventAdmin{" + "id_a=" + id_a + ", nom_a=" + nom_a + ", date_a=" + date_a + ", lieu_a=" + lieu_a + ", description_a=" + description_a + ", image_a=" + image_a + ", prix_a=" + prix_a + '}';
+        return "EventAdmin{" + "id_a=" + id_a + ", nom_a=" + nom_a + ", date_a=" + date_a + ", lieu_a=" + lieu_a + ", description_a=" + description_a + ", image_a=" + image_a + ", prix_a=" + prix_a + ", pathQR=" + pathQR + '}';
     }
 
-    
     
    
     

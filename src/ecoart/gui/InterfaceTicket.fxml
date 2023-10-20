@@ -68,5 +68,6 @@
             <Image url="@../ecoart.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="QRpath_a" fitHeight="98.0" fitWidth="136.0" layoutX="14.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

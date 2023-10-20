@@ -5,21 +5,32 @@
  */
 package ecoart.gui;
 
+import com.google.zxing.WriterException;
+import com.google.zxing.qrcode.QRCodeWriter;
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import ecoart.entities.EventAdmin;
 import ecoart.services.EventAdminService;
 import ecoart.utils.MyConnection;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -110,7 +121,11 @@ public class EventAdminController implements Initializable {
     
     public void initialize(URL url, ResourceBundle rb) {
        
-      
+        try {
+            supprimerLignesDepassees();
+        } catch (SQLException ex) {
+            Logger.getLogger(EventAdminController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ObservableList<String> items = FXCollections.observableArrayList("ariana","beja","ben arous","bizert","tatwin","touzeur","tunis","jandouba","zaghwen","silyana","sousse",
                 "sidi bouzid","safax","gbeli","gasrin","gafsa","kerwan","keef","mednin","mounastir","manouba","mahdia","nabeul");
             
@@ -131,13 +146,23 @@ public class EventAdminController implements Initializable {
             Logger.getLogger(EventAdminController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+        return sb.toString();
+    }
 
 
     @FXML
   private void Ajoutresv(MouseEvent event) {
     try {
-        
-        int id = 0; // You can set the ID as needed, or let the database auto-generate it
+        supprimerLignesDepassees();
+        int id = 0; 
         String nom = tfnom_a.getText();
         LocalDate date = daterev_a.getValue();
         String lieu = combolieu_a.getSelectionModel().getSelectedItem().toString();
@@ -147,11 +172,12 @@ public class EventAdminController implements Initializable {
         Image image = espaceImg_a.getImage(); // Get the image from the ImageView
         int prix = Integer.parseInt(tfprix_a.getText());
         
-        String emptyString = "";
-       byte[] emptyByteArray = emptyString.getBytes();
-       
+       String dataQr= "Event  nom_a=" + nom + ", date_a=" + date + ", lieu_a=" + lieu + ", description_a=" + description +  ", prix_a=" + prix  + '}';
+                       String datanameQr = generateRandomString(4);
+                String myQr = generateQRCodeAndSave(dataQr,datanameQr);
+
         // Create an EventAdmin object and call ajoutEventAdmin with it
-        EventAdmin e = new EventAdmin(id, nom, date, lieu, description,path, prix);
+        EventAdmin e = new EventAdmin(id, nom, date, lieu, description,path, prix,myQr);
         a.ajoutEventAdmin(e, path);
 
         a.ShowReservation(colnom_a, coldate_a, collieu_a, coldesc_a, colprix_a, tabResv_a);
@@ -160,8 +186,59 @@ public class EventAdminController implements Initializable {
         ex.printStackTrace();
         // Handle errors or display an error message
     }
+  }
+    public void supprimerLignesDepassees() throws SQLException {
+    LocalDate now = LocalDate.now();
+
+ 
+   
+       
+        
+           String query = "DELETE FROM EventAdmin WHERE (DATEDIFF(?, date_a)) > 1";
+        PreparedStatement deleteStatement = myConx.prepareStatement(query);
+        deleteStatement.setDate(1, java.sql.Date.valueOf(now));
+        int a=deleteStatement.executeUpdate();
+        
+        System.out.println(a);
+              String query2 = "DELETE FROM EventUser WHERE DATEDIFF(?, date) > 1";
+        PreparedStatement deleteStatement2 = myConx.prepareStatement(query2);
+        deleteStatement2.setDate(1, java.sql.Date.valueOf(now));
+        int b=deleteStatement2.executeUpdate();
+        
+
 }
 
+
+  
+  public String generateQRCodeAndSave(String text, String fileName) throws WriterException {
+        // Generate the QR code
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 250, 250);
+        BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+        // Convert the BufferedImage to a JavaFX Image
+        Image fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
+
+        // Save the image to the specified directory
+        String directoryPath = "C:/Users/ASUS/Desktop/AZIZ/Ecoart/src/ecoart/images";
+        Path directory = Paths.get(directoryPath);
+        if (!Files.exists(directory)) {
+            try {
+                Files.createDirectories(directory);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String filePath = directoryPath + "/" + fileName + ".png";
+        File file = new File(filePath);
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(fxImage, null), "png", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filePath;
+    }
 
 /*private byte[] convertImageToByteArray(Image image) throws IOException {
     BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
@@ -293,6 +370,25 @@ if (selectedEvent != null) {
     }
 
    
+  /*private void supprimerLignesDepassees() {
+    LocalDate now = LocalDate.now();
+    ObservableList<EventAdmin> items = tabResv_a.getItems();
+ 
+    for (EventAdmin e : items) {
+        LocalDate dateAjout = e.getDate_a();
+        Period period = Period.between(dateAjout, now);
 
+        if (period.getDays() > 0) {
+            // Supprimez l'événement de la table
+            items.remove(e);
+
+            // Ajoutez ici le code pour supprimer l'événement de votre base de données
+            int idToDelete = e.getId_a();
+            String idToDeleteString = Integer.toString(idToDelete);
+ // Récupérez l'ID de l'événement à supprimer
+            a.supprimerEventAdmin(idToDeleteString);
+        }
+    }
   
+}*/
 }

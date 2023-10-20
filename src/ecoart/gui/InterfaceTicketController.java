@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -23,11 +25,12 @@ public class InterfaceTicketController implements Initializable {
     @FXML
     private Label labellieu;
     @FXML
-    private Label labeldesc;
-    @FXML
     private Label labelprix;
     @FXML
     private Label labelnom;
+    @FXML
+    private ImageView QRpath_a;
+    private Image image1;
 
     /**
      * Initializes the controller class.
@@ -37,12 +40,16 @@ public class InterfaceTicketController implements Initializable {
         
     }
         // TODO
-    public void setEventInfo(String nom, String date, String lieu,  int prix) {
+    public void setEventInfo(String nom, String date, String lieu,  int prix , String Qr) {
         labelnom.setText(nom);
         labeldate.setText(date);
         labellieu.setText(lieu);
     
         labelprix.setText(Integer.toString(prix));
+        System.err.println("qr"+Qr);
+                image1 = new Image("file:///"+Qr);
+        QRpath_a.setImage(image1);
+
     } 
    /* public void setnom_a (String nom_a){
         Eventnom =nom_a ;

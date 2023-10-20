@@ -5,6 +5,7 @@
  */
 package ecoart.services;
 
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import ecoart.entities.EventAdmin;
 
 import ecoart.utils.MyConnection;
@@ -29,6 +30,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -91,7 +93,7 @@ public void ajoutEventAdmin(EventAdmin e, String path) throws IOException, SQLEx
     
          String selectQuery = "SELECT * FROM eventadmin WHERE nom_a = ?";
         // Prepare the SQL INSERT query
-        String insertQuery = "INSERT INTO eventadmin (id_a, nom_a, date_a, lieu_a, description_a, image_a, prix_a) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO eventadmin (id_a, nom_a, date_a, lieu_a, description_a, image_a, prix_a,path_qr) VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 
         // Convert the JavaFX LocalDate to a SQL Date
         LocalDate localdate = e.getDate_a();
@@ -136,7 +138,7 @@ public void ajoutEventAdmin(EventAdmin e, String path) throws IOException, SQLEx
         pst.setString(6, path);
         
         pst.setInt(7, e.getPrix_a());
-
+pst.setString(8, e.getPathQR());
         // Execute the SQL statement to insert the event
         pst.executeUpdate();
 
@@ -286,7 +288,8 @@ public void modifEventAdmin(EventAdmin e, String path) throws IOException {
     rs.getString("lieu_a"),
     rs.getString("description_a"),
     rs.getString("image_a"),
-    rs.getInt("prix_a")
+    rs.getInt("prix_a"),
+                      rs.getString("path_qr")
 ));
                       
                         } 
@@ -351,8 +354,9 @@ public void modifEventAdmin(EventAdmin e, String path) throws IOException {
         combolieu_a.setItems(listData);
 }
 
-   
+  
 
+}
     
   /*  private byte[] convertImageToByteArray(Image image) throws IOException {
     BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
@@ -361,4 +365,4 @@ public void modifEventAdmin(EventAdmin e, String path) throws IOException {
     return baos.toByteArray();
 }*/
    
-}
+

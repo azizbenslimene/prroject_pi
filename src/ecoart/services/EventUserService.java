@@ -63,8 +63,8 @@ public void ajoutEventUser(EventUser e, String path) throws IOException, SQLExce
     boolean isUnique = false;
     
     String selectQuery = "SELECT * FROM eventadmin WHERE nom_a = ?";
-    String insertQuery = "INSERT INTO eventuser (id, nom, date, lieu, description, image, prix) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    String insertQuery2 = "INSERT INTO eventadmin (id_a, nom_a, date_a, lieu_a, description_a, image_a, prix_a) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    String insertQuery = "INSERT INTO eventuser (id, nom, date, lieu, description, image, prix,path_qr) VALUES (?, ?, ?, ?, ?, ?,? ,?)";
+    String insertQuery2 = "INSERT INTO eventadmin (id_a, nom_a, date_a, lieu_a, description_a, image_a, prix_a,path_qr) VALUES (?, ?, ?, ?, ?, ?,? ,?)";
     
     LocalDate localdate = e.getDate_u();
     Date sqlDate = Date.valueOf(localdate);
@@ -89,6 +89,7 @@ public void ajoutEventUser(EventUser e, String path) throws IOException, SQLExce
         pst.setString(5, e.getDescription_u());
         pst.setString(6, path);
         pst.setInt(7, e.getPrix_u());
+        pst.setString(8,e.getPathQR());
         pst.executeUpdate();
         
         // Insert into the eventadmin table with the same data
@@ -100,6 +101,8 @@ public void ajoutEventUser(EventUser e, String path) throws IOException, SQLExce
         pst2.setString(5, e.getDescription_u());
         pst2.setString(6, path);
         pst2.setInt(7, e.getPrix_u());
+             pst2.setString(8,e.getPathQR());
+
         pst2.executeUpdate();
     }
 }
