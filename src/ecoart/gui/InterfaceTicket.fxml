@@ -53,12 +53,12 @@
             <Font name="Arial Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="labelprix" layoutX="424.0" layoutY="242.0" prefHeight="11.0" prefWidth="149.0">
+      <Label fx:id="labelprix" layoutX="451.0" layoutY="242.0" prefHeight="21.0" prefWidth="122.0">
          <font>
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <Button layoutX="258.0" layoutY="330.0" mnemonicParsing="false" text="Imprimer">
+      <Button fx:id="imprimepdf" layoutX="258.0" layoutY="330.0" mnemonicParsing="false" onMouseClicked="#imprimeticket" text="Imprimer">
          <font>
             <Font name="Arial Bold" size="15.0" />
          </font>

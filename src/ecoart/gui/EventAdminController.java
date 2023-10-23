@@ -6,7 +6,6 @@
 package ecoart.gui;
 
 import com.google.zxing.WriterException;
-import com.google.zxing.qrcode.QRCodeWriter;
 import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import ecoart.entities.EventAdmin;
 import ecoart.services.EventAdminService;
@@ -17,7 +16,19 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Font;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -28,8 +39,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -55,6 +68,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
@@ -190,10 +204,6 @@ public class EventAdminController implements Initializable {
     public void supprimerLignesDepassees() throws SQLException {
     LocalDate now = LocalDate.now();
 
- 
-   
-       
-        
            String query = "DELETE FROM EventAdmin WHERE (DATEDIFF(?, date_a)) > 1";
         PreparedStatement deleteStatement = myConx.prepareStatement(query);
         deleteStatement.setDate(1, java.sql.Date.valueOf(now));
@@ -208,7 +218,7 @@ public class EventAdminController implements Initializable {
 
 }
 
-
+///////////////////QR/////////////////////
   
   public String generateQRCodeAndSave(String text, String fileName) throws WriterException {
         // Generate the QR code
@@ -247,6 +257,11 @@ public class EventAdminController implements Initializable {
     return baos.toByteArray();
 }*/
   
+  
+  
+  ///////////////////PDF///////////////////////
+  
+
 
 @FXML
 private void Modresv(MouseEvent event) {
@@ -369,26 +384,4 @@ if (selectedEvent != null) {
            primaryStage.show();
     }
 
-   
-  /*private void supprimerLignesDepassees() {
-    LocalDate now = LocalDate.now();
-    ObservableList<EventAdmin> items = tabResv_a.getItems();
- 
-    for (EventAdmin e : items) {
-        LocalDate dateAjout = e.getDate_a();
-        Period period = Period.between(dateAjout, now);
-
-        if (period.getDays() > 0) {
-            // Supprimez l'événement de la table
-            items.remove(e);
-
-            // Ajoutez ici le code pour supprimer l'événement de votre base de données
-            int idToDelete = e.getId_a();
-            String idToDeleteString = Integer.toString(idToDelete);
- // Récupérez l'ID de l'événement à supprimer
-            a.supprimerEventAdmin(idToDeleteString);
-        }
-    }
-  
-}*/
 }

@@ -6,25 +6,37 @@
 package ecoart.gui;
 
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import ecoart.entities.EventUser;
+import static ecoart.gui.EventAdminController.generateRandomString;
 import static ecoart.gui.HomePage.main;
 
 import ecoart.services.EventUserService;
 import ecoart.utils.MyConnection;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,6 +56,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 
 /**
  * FXML Controller class
@@ -122,6 +135,16 @@ public class EventUserController implements Initializable {
        
         
     }    
+    public static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+        return sb.toString();
+    }
 
 
     @FXML
@@ -138,11 +161,14 @@ public class EventUserController implements Initializable {
         
         Image image = espaceImg_u.getImage(); // Get the image from the ImageView
         int prix = Integer.parseInt(tfprix_u.getText());
+         String dataQr= "Event  nom=" + nom + ", date=" + date + ", lieu=" + lieu + ", description=" + description +  ", prix=" + prix  + '}';
+                       String datanameQr = generateRandomString(4);
+                String myQr = generateQRCodeAndSave(dataQr,datanameQr);
         
   
        
         // Create an EventUser object and call ajoutEventUser with it
-        EventUser e = new EventUser(id, nom, date, lieu, description,path, prix);
+        EventUser e = new EventUser(id, nom, date, lieu, description,path, prix,myQr);
         a.ajoutEventUser(e,path);
 
         a.ShowReservation(colnom_u, coldate_u, collieu_u, coldesc_u, colprix_u, tabResv_u);
@@ -153,6 +179,38 @@ public class EventUserController implements Initializable {
     }
     }
 
+    /////////QR///////////////
+     public String generateQRCodeAndSave(String text, String fileName) throws WriterException {
+        // Generate the QR code
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 250, 250);
+        BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+        // Convert the BufferedImage to a JavaFX Image
+        Image fxImage = SwingFXUtils.toFXImage(bufferedImage, null);
+
+        // Save the image to the specified directory
+        String directoryPath = "C:/Users/ASUS/Desktop/AZIZ/Ecoart/src/ecoart/images";
+        Path directory = Paths.get(directoryPath);
+        if (!Files.exists(directory)) {
+            try {
+                Files.createDirectories(directory);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String filePath = directoryPath + "/" + fileName + ".png";
+        File file = new File(filePath);
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(fxImage, null), "png", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return filePath;
+    }
+    
+    
     @FXML
     private void Supresv_u(MouseEvent event) throws SQLException {
         

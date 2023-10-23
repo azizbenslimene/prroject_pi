@@ -131,6 +131,7 @@ public void ajoutEventUser(EventUser e, String path) throws IOException, SQLExce
         pst.setInt(6, e.getPrix_u());
         
         pst.setInt(7, e.getId_u());
+        
 
 
         // Execute the SQL statement to update the event
