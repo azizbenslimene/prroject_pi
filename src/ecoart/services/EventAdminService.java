@@ -132,9 +132,6 @@ public void ajoutEventAdmin(EventAdmin e, String path) throws IOException, SQLEx
         pst.setDate(3, sqlDate);
         pst.setString(4, e.getLieu_a());
         pst.setString(5, e.getDescription_a());
-   
-
-       
         pst.setString(6, path);
         
         pst.setInt(7, e.getPrix_a());

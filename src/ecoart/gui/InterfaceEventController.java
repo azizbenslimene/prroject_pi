@@ -110,7 +110,7 @@ public class InterfaceEventController implements Initializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // Vous pouvez choisir le format que vous souhaitez
     String formattedDate = selectedEvent.getDate_a().format(formatter);
         InterfaceTicketController ticketController = loader.getController();
-                System.err.println(" selectedEvent.getPathQR()"+ selectedEvent.getPathQR()+" selectedEvent.getNom()"+ selectedEvent.getImage_a());
+                //System.err.println(" selectedEvent.getPathQR()"+ selectedEvent.getPathQR()+" selectedEvent.getNom()"+ selectedEvent.getImage_a());
 
         ticketController.setEventInfo(
             selectedEvent.getNom_a(),
